@@ -117,6 +117,6 @@ export const projects = [
     description: `Engineered client-side video streaming interface with Flutter, handling real-time middleware data synchronization and responsive UI controls.`,
     techStack: ["Flutter", "Dart", "REST API", "State Management"],
     github: "https://github.com/carlosqnova",
-    demo: ""
+    demo: "https://siren.citranagakencana.com/"
   }
 ];
