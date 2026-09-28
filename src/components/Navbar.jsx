@@ -29,7 +29,8 @@ const Navbar = () => {
       <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
         <a href="#hero" style={{ color: '#fff', fontWeight: 500 }}>Home</a>
         <a href="#about" style={{ color: '#fff', fontWeight: 500 }}>About</a>
-        <a href="#portfolio" style={{ color: '#fff', fontWeight: 500 }}>Work</a>
+        <a href="#experience" style={{ color: '#fff', fontWeight: 500 }}>Experience</a>
+        <a href="#projects" style={{ color: '#fff', fontWeight: 500 }}>Work</a>
         
         <a href="/CV.pdf" download="My_CV.pdf" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
           <FiDownload size={16} /> CV

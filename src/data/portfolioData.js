@@ -4,8 +4,8 @@ export const personalInfo = {
   location: "Denpasar, Bali, Indonesia",
   email: "carlosqnova88@gmail.com",
   phone: "+62 85692820057",
-  github: "https://github.com/carlosqnova", // sesuaikan dengan link repo Anda
-  linkedin: "https://linkedin.com/in/carlosqnova",
+  github: "https://github.com/Qnova26",
+  linkedin: "https://www.linkedin.com/in/carlosqnova",
   about: "An Information Technology student at Udayana University with hybrid expertise in Data Science and Software Engineering. Skilled in managing end-to-end Machine Learning lifecycles (MLflow, Anaconda) and building scalable web (Laravel) and mobile (Flutter) applications that convert complex data into actionable business insights.",
   stats: [
     { label: "Medical Images Processed", value: "10,000+" },

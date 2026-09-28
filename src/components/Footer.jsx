@@ -1,4 +1,5 @@
 import React from 'react';
+import { personalInfo } from '../data/portfolioData';
 
 const Footer = () => {
   return (
@@ -18,13 +19,14 @@ const Footer = () => {
             <h4 style={{ color: '#fff', marginBottom: '0.5rem' }}>Links</h4>
             <a href="#hero" style={{ color: 'var(--color-text-muted)' }}>Home</a>
             <a href="#about" style={{ color: 'var(--color-text-muted)' }}>About</a>
-            <a href="#portfolio" style={{ color: 'var(--color-text-muted)' }}>Work</a>
+            <a href="#experience" style={{ color: 'var(--color-text-muted)' }}>Experience</a>
+            <a href="#projects" style={{ color: 'var(--color-text-muted)' }}>Work</a>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <h4 style={{ color: '#fff', marginBottom: '0.5rem' }}>Contact</h4>
-            <a href="mailto:hello@example.com" style={{ color: 'var(--color-text-muted)' }}>Email</a>
-            <a href="#" style={{ color: 'var(--color-text-muted)' }}>LinkedIn</a>
-            <a href="#" style={{ color: 'var(--color-text-muted)' }}>GitHub</a>
+            <a href={`mailto:${personalInfo.email}`} style={{ color: 'var(--color-text-muted)' }}>Email</a>
+            <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--color-text-muted)' }}>LinkedIn</a>
+            <a href={personalInfo.github} target="_blank" rel="noreferrer" style={{ color: 'var(--color-text-muted)' }}>GitHub</a>
           </div>
         </div>
       </div>

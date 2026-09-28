@@ -109,7 +109,8 @@ section {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
-  display: table; /* Acts like fit-content but better support */
+  display: block;
+  width: fit-content;
 }
 
 .section-title::after {
