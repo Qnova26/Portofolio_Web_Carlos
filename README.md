@@ -1,4 +1,4 @@
-# PortoFolio - 3D Interactive Personal Portfolio
+# PortoFolio CARLOS QNOVA BHA'A GANI
 
 Website portofolio interaktif dan modern dengan desain 3D, efek *glassmorphism*, dan animasi yang mulus. Proyek ini dibangun untuk menampilkan profil, data diri, serta proyek-proyek web (portofolio) yang pernah dibuat dengan pengalaman visual yang premium.
 

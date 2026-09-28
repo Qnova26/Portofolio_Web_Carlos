@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiLinkedin, FiGithub } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/portfolioData';
 
 const Contact = () => {
+  const form = useRef();
   const [status, setStatus] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate EmailJS integration logic for now
     setStatus('Sending...');
-    setTimeout(() => {
-      setStatus('Message sent successfully!');
-      e.target.reset();
-    }, 1500);
+
+    emailjs.sendForm(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      form.current,
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    )
+    .then((result) => {
+        setStatus('Message sent successfully!');
+        e.target.reset();
+        setTimeout(() => setStatus(''), 3000);
+    }, (error) => {
+        console.error(error.text);
+        setStatus('Failed to send message. Please try again.');
+        setTimeout(() => setStatus(''), 3000);
+    });
   };
 
   return (
@@ -39,11 +52,12 @@ const Contact = () => {
           Have a project in mind or want to collaborate? <br/> Send me a message!
         </p>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <form ref={form} onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 500 }}>Name</label>
             <input 
               type="text" 
+              name="user_name"
               required 
               style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.8rem 1rem', borderRadius: '8px', color: '#fff', outline: 'none', transition: 'border 0.3s' }} 
               onFocus={(e) => e.target.style.borderColor = 'var(--color-primary)'}
@@ -55,6 +69,7 @@ const Contact = () => {
             <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 500 }}>Email Address</label>
             <input 
               type="email" 
+              name="user_email"
               required 
               style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.8rem 1rem', borderRadius: '8px', color: '#fff', outline: 'none', transition: 'border 0.3s' }} 
               onFocus={(e) => e.target.style.borderColor = 'var(--color-primary)'}
@@ -65,6 +80,7 @@ const Contact = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 500 }}>Message</label>
             <textarea 
+              name="message"
               rows="4" 
               required 
               style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.8rem 1rem', borderRadius: '8px', color: '#fff', outline: 'none', resize: 'vertical', transition: 'border 0.3s' }} 
