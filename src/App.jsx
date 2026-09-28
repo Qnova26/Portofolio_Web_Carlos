@@ -11,12 +11,12 @@ import Footer from './components/Footer';
 function App() {
   return (
     <>
-      <Suspense fallback={<div style={{ color: 'white', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading 3D Engine...</div>}>
+      <Suspense fallback={null}>
         <Background3D />
       </Suspense>
-      
+
       <Navbar />
-      
+
       <main>
         <Hero />
         <About />
