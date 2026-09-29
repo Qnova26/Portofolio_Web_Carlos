@@ -1,225 +1,300 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
-// Try to import profile photo — falls back to initials gracefully
+// Profile photo
 let profilePhoto;
 try {
-  profilePhoto = new URL('../assets/profile.jpg', import.meta.url).href;
-} catch {
-  profilePhoto = null;
-}
+  profilePhoto = new URL('../assets/profile.JPG', import.meta.url).href;
+} catch { profilePhoto = null; }
+
+// Line numbers helper
+const Line = ({ num, children }) => (
+  <div style={{ display: 'flex', gap: '0', minHeight: '1.6em' }}>
+    <span style={{
+      minWidth: '40px',
+      paddingRight: '1.2rem',
+      color: 'var(--line-number-text)',
+      textAlign: 'right',
+      fontSize: '0.82rem',
+      fontFamily: 'JetBrains Mono, monospace',
+      userSelect: 'none',
+      flexShrink: 0,
+    }}>{num}</span>
+    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.88rem', lineHeight: 1.8 }}>
+      {children}
+    </span>
+  </div>
+);
 
 const Hero = () => {
-  const firstName = personalInfo.name.split(' ')[0];
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText(personalInfo.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section
       id="hero"
-      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '7rem 0 4rem' }}
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        paddingTop: '6rem',
+        paddingBottom: '3rem',
+      }}
     >
       <div
         className="container"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'auto 1fr',
-          gap: '5rem',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '4rem',
           alignItems: 'center',
         }}
       >
-        {/* ── LEFT: Photo ── */}
+        {/* ── LEFT: Code snippet ── */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
+          initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          style={{ display: 'flex', justifyContent: 'center' }}
+          transition={{ duration: 0.6 }}
         >
-          <div style={{ position: 'relative' }}>
-            {/* Glow ring */}
-            <div style={{
-              position: 'absolute',
-              inset: '-3px',
-              borderRadius: '50%',
-              background: 'conic-gradient(from 180deg, #00f0ff, #b275ff, #00f0ff)',
-              opacity: 0.7,
-              animation: 'spin-slow 8s linear infinite',
-              filter: 'blur(2px)',
-            }} />
-            {/* Photo circle */}
-            <div style={{
-              position: 'relative',
-              width: '260px',
-              height: '260px',
-              borderRadius: '50%',
-              overflow: 'hidden',
-              border: '3px solid var(--color-bg)',
-              background: 'var(--color-surface)',
-              flexShrink: 0,
-            }}>
-              <img
-                src={profilePhoto || ''}
-                alt={`${firstName} - Profile Photo`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-                onError={e => {
-                  e.currentTarget.style.display = 'none';
-                  document.querySelector('.hero-initials').style.display = 'flex';
-                }}
-              />
-              {/* Fallback initials */}
-              <div
-                className="hero-initials"
-                style={{
-                  display: profilePhoto ? 'none' : 'flex',
-                  width: '100%',
-                  height: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'linear-gradient(135deg, #13131c, #0a0a0f)',
-                  fontSize: '4rem',
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 800,
-                  color: 'var(--color-primary)',
-                  letterSpacing: '-0.04em',
-                  textShadow: '0 0 20px rgba(0, 240, 255, 0.5)',
-                }}
-              >
-                CQ
-              </div>
-            </div>
+          {/* File path breadcrumb */}
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.75rem',
+            color: 'var(--text-dim)',
+            marginBottom: '0.75rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+          }}>
+            <span>portfolio</span>
+            <span>/</span>
+            <span>src</span>
+            <span>/</span>
+            <span style={{ color: 'var(--syntax-yellow)' }}>home.tsx</span>
+          </div>
 
-            {/* "Open to Work" badge */}
+          {/* Code block */}
+          <div style={{
+            background: 'var(--bg-sidebar)',
+            border: `1px solid var(--border)`,
+            borderTop: `2px solid var(--accent)`,
+            borderRadius: '0 0 6px 6px',
+            overflow: 'hidden',
+          }}>
+            {/* Tab */}
             <div style={{
-              position: 'absolute',
-              bottom: '12px',
-              right: '8px',
-              background: 'rgba(19, 19, 28, 0.95)',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
-              borderRadius: '50px',
-              padding: '0.3rem 0.75rem',
+              background: 'var(--bg-surface)',
+              borderBottom: `1px solid var(--border)`,
+              padding: '0.35rem 1.2rem',
+              fontSize: '0.78rem',
+              fontFamily: 'JetBrains Mono, monospace',
+              color: 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem',
+            }}>
+              <span style={{ color: 'var(--syntax-blue)', fontSize: '0.7rem' }}>⚛</span>
+              home.tsx
+            </div>
+
+            {/* Code content */}
+            <div style={{ padding: '1.2rem 1rem 1.5rem' }}>
+              <Line num={1}><span className="kw">const </span><span className="var">developer </span><span className="punct">= </span><span className="punct">{'{'}</span></Line>
+              <Line num={2}>{'  '}<span className="prop">name</span><span className="punct">:  </span><span className="str">"{personalInfo.name}"</span><span className="punct">,</span></Line>
+              <Line num={3}>{'  '}<span className="prop">role</span><span className="punct">:  </span><span className="str">"Data Scientist & Full-Stack Dev"</span><span className="punct">,</span></Line>
+              <Line num={4}>{'  '}<span className="prop">base</span><span className="punct">:  </span><span className="str">"{personalInfo.location}"</span><span className="punct">,</span></Line>
+              <Line num={5}>{'  '}<span className="prop">open</span><span className="punct">:  </span><span className="kw">true</span><span className="punct">,</span></Line>
+              <Line num={6}><span className="punct">{'}'}</span><span className="punct">;</span></Line>
+              <Line num={7}></Line>
+              <Line num={8}><span className="comment">// Turning data into decisions,</span></Line>
+              <Line num={9}><span className="comment">// and ideas into products.</span></Line>
+              <Line num={10}></Line>
+              <Line num={11}><span className="fn">export default </span><span className="type">developer</span><span className="punct">;</span></Line>
+            </div>
+          </div>
+
+          {/* Action buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem', flexWrap: 'wrap' }}
+          >
+            <a href="#projects" className="btn btn-primary">
+              View Projects <FiArrowRight size={15} />
+            </a>
+            <a href="/CV.pdf" download="CV_Carlos_Qnova.pdf" className="btn btn-outline">
+              <FiDownload size={15} /> Resume
+            </a>
+            <button
+              onClick={copyEmail}
+              className="btn btn-outline"
+              style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem' }}
+            >
+              {copied ? '✓ Copied!' : personalInfo.email}
+            </button>
+          </motion.div>
+
+          {/* Social row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            style={{ display: 'flex', gap: '1rem', marginTop: '1.25rem', alignItems: 'center' }}
+          >
+            {[
+              { href: personalInfo.github, icon: <FiGithub size={17} />, label: 'GitHub' },
+              { href: personalInfo.linkedin, icon: <FiLinkedin size={17} />, label: 'LinkedIn' },
+              { href: `mailto:${personalInfo.email}`, icon: <FiMail size={17} />, label: 'Email' },
+            ].map(({ href, icon, label }) => (
+              <a
+                key={label} href={href}
+                target={label !== 'Email' ? '_blank' : undefined}
+                rel="noreferrer" title={label}
+                style={{
+                  color: 'var(--text-secondary)', transition: 'color 0.2s',
+                  display: 'flex', alignItems: 'center',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+              >
+                {icon}
+              </a>
+            ))}
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+              // connect with me
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* ── RIGHT: Photo ── */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <div style={{ position: 'relative' }}>
+            {/* Accent corner frame */}
+            <div style={{
+              position: 'absolute',
+              top: '-8px', left: '-8px',
+              width: '40px', height: '40px',
+              borderTop: `2px solid var(--accent)`,
+              borderLeft: `2px solid var(--accent)`,
+            }} />
+            <div style={{
+              position: 'absolute',
+              bottom: '-8px', right: '-8px',
+              width: '40px', height: '40px',
+              borderBottom: `2px solid var(--accent)`,
+              borderRight: `2px solid var(--accent)`,
+            }} />
+
+            {/* Photo */}
+            <div style={{
+              width: '280px',
+              height: '320px',
+              overflow: 'hidden',
+              border: `1px solid var(--border)`,
+              position: 'relative',
+              background: 'var(--bg-surface)',
+            }}>
+              <img
+                src={profilePhoto || ''}
+                alt="Carlos Qnova"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                onError={e => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextSibling.style.display = 'flex';
+                }}
+              />
+              {/* Fallback */}
+              <div style={{
+                display: profilePhoto ? 'none' : 'flex',
+                width: '100%', height: '100%',
+                alignItems: 'center', justifyContent: 'center',
+                flexDirection: 'column', gap: '0.5rem',
+                background: 'var(--bg-surface)',
+              }}>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '3.5rem', color: 'var(--syntax-blue)', fontWeight: 700 }}>CQ</span>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.7rem', color: 'var(--text-dim)' }}>// profile.jpg</span>
+              </div>
+            </div>
+
+            {/* Status badge */}
+            <div style={{
+              position: 'absolute',
+              bottom: '-16px', left: '50%', transform: 'translateX(-50%)',
+              background: 'var(--bg-surface)',
+              border: `1px solid var(--border)`,
+              borderLeft: `3px solid var(--syntax-green)`,
+              padding: '0.3rem 0.9rem',
+              fontFamily: 'JetBrains Mono, monospace',
               fontSize: '0.75rem',
-              fontWeight: 600,
-              color: '#00f0ff',
-              boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)',
+              color: 'var(--syntax-green)',
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
             }}>
               <span style={{
-                width: '7px', height: '7px',
-                borderRadius: '50%',
-                background: '#00f0ff',
-                animation: 'pulse-dot 2s ease-in-out infinite',
-                boxShadow: '0 0 6px #00f0ff',
+                width: '6px', height: '6px', borderRadius: '50%',
+                background: 'var(--syntax-green)',
+                animation: 'pulse 2s ease-in-out infinite',
               }} />
-              Open to Work
+              open_to_work = true
             </div>
           </div>
         </motion.div>
-
-        {/* ── RIGHT: Text ── */}
-        <div>
-          {/* Greeting pill */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              display: 'inline-block',
-              padding: '0.5rem 1rem',
-              background: 'rgba(0, 240, 255, 0.1)',
-              color: 'var(--color-primary)',
-              borderRadius: '50px',
-              marginBottom: '1.5rem',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              border: '1px solid rgba(0, 240, 255, 0.2)',
-            }}
-          >
-            👋 Hello, I'm {firstName}
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', lineHeight: 1.15, marginBottom: '1.25rem' }}
-          >
-            Bridging{' '}
-            <span style={{ color: 'transparent', WebkitTextStroke: '1px var(--color-primary)', filter: 'drop-shadow(0 0 8px var(--color-primary))' }}>
-              Data Science
-            </span>
-            <br />
-            &amp; Full-Stack Engineering
-          </motion.h1>
-
-          {/* Bio */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', maxWidth: '560px', marginBottom: '2.5rem', lineHeight: 1.8 }}
-          >
-            Building intelligent systems, multi-modal AI platforms, and responsive applications that convert complex data into actionable business insights.
-          </motion.p>
-
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
-          >
-            <a href="#projects" className="btn btn-primary">
-              View Projects <FiArrowRight size={18} />
-            </a>
-            <a href="/CV.pdf" download="CV_Carlos_Qnova.pdf" className="btn btn-outline">
-              Download CV
-            </a>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginLeft: '0.25rem' }}>
-              {[
-                { href: personalInfo.github,            icon: <FiGithub size={20} />,   label: 'GitHub' },
-                { href: personalInfo.linkedin,           icon: <FiLinkedin size={20} />, label: 'LinkedIn' },
-                { href: `mailto:${personalInfo.email}`, icon: <FiMail size={20} />,     label: 'Email' },
-              ].map(({ href, icon, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={label !== 'Email' ? '_blank' : undefined}
-                  rel="noreferrer"
-                  title={label}
-                  className="btn btn-outline"
-                  style={{ padding: '0.75rem', borderRadius: '50%' }}
-                >
-                  {icon}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        </div>
       </div>
 
+      {/* Stats row */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        style={{
+          position: 'absolute',
+          bottom: '3rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: '3rem',
+          alignItems: 'center',
+        }}
+      >
+        {personalInfo.stats.map((s, i) => (
+          <div key={i} style={{ textAlign: 'center' }}>
+            <div style={{
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '1.5rem', fontWeight: 700,
+              color: 'var(--syntax-blue)',
+            }}>{s.value}</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '0.2rem' }}>{s.label}</div>
+          </div>
+        ))}
+      </motion.div>
+
       <style>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.5; transform: scale(0.8); }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
         }
         @media (max-width: 768px) {
           #hero .container {
             grid-template-columns: 1fr !important;
-            text-align: center;
             gap: 3rem !important;
           }
-          #hero .container > div:last-child p {
-            max-width: 100% !important;
-          }
-          #hero .container > div:last-child > div:last-child {
-            justify-content: center;
+          #hero .container > div:first-child > div:last-child {
+            flex-wrap: wrap;
           }
         }
       `}</style>

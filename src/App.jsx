@@ -1,16 +1,17 @@
 import React, { Suspense } from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
 import ProjectShowcase from './components/ProjectShowcase';
 import Contact from './components/Contact';
+import StatusBar from './components/StatusBar';
 import Background3D from './components/Background3D';
-import Footer from './components/Footer';
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <Suspense fallback={null}>
         <Background3D />
       </Suspense>
@@ -25,8 +26,8 @@ function App() {
         <Contact />
       </main>
 
-      <Footer />
-    </>
+      <StatusBar />
+    </ThemeProvider>
   );
 }
 

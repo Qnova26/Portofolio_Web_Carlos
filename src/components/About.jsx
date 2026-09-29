@@ -2,99 +2,162 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo, skills } from '../data/portfolioData';
 
-const About = () => {
-  return (
-    <section id="about" style={{ padding: '8rem 0' }}>
-      <div className="container">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-title"
-        >
-          About Me
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.45, delay },
+});
+
+const skillGroups = [
+  { label: 'dataScience',    title: 'data_science',    tagClass: 'tag-blue',   key: 'dataScience' },
+  { label: 'webDevelopment', title: 'web_backend',     tagClass: 'tag-purple', key: 'webDevelopment' },
+  { label: 'mobile',         title: 'mobile',          tagClass: 'tag-cyan',   key: 'mobileDevelopment' },
+  { label: 'toolsAndDevOps', title: 'devops_tools',    tagClass: 'tag-muted',  key: 'toolsAndDevOps' },
+];
+
+const About = () => (
+  <section id="about" style={{ background: 'var(--bg-sidebar)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+    <div className="container">
+
+      {/* Section header */}
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <motion.p {...fade()} className="vsc-comment">{'// section: about me'}</motion.p>
+        <motion.h2 {...fade(0.1)} className="section-title">
+          <span className="kw">function </span>
+          <span className="fn">whoAmI</span>
+          <span className="punct">() {'{'}</span>
         </motion.h2>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', marginTop: '4rem' }}>
-          {/* Bio + Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--color-primary)' }}>My Identity</h3>
-            <p style={{ color: 'var(--color-text-muted)', marginBottom: '1rem', fontSize: '1.1rem', lineHeight: 1.8 }}>
-              {personalInfo.about}
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '3rem' }}>
-              {personalInfo.stats.map((stat, index) => (
-                <div key={index} className="glass" style={{ padding: '1.5rem', borderRadius: '12px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--color-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)', textShadow: '0 0 15px rgba(0,240,255,0.4)' }}>
-                    {stat.value}
-                  </div>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Skills */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="glass"
-            style={{ padding: '2.5rem', borderRadius: '16px' }}
-          >
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Skills Matrix</h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              <div>
-                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Data Science &amp; AI</h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {skills.dataScience.map((skill, i) => (
-                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(0, 240, 255, 0.1)', color: 'var(--color-primary)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Web &amp; Backend</h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {skills.webDevelopment.map((skill, i) => (
-                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(138, 43, 226, 0.15)', color: '#b275ff', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Mobile Development</h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {skills.mobileDevelopment.map((skill, i) => (
-                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(0, 240, 255, 0.1)', color: 'var(--color-primary)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>DevOps &amp; Tools</h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {skills.toolsAndDevOps.map((skill, i) => (
-                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(255, 255, 255, 0.05)', color: 'var(--color-text-muted)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        <div className="vsc-divider" />
       </div>
-    </section>
-  );
-};
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '3rem', alignItems: 'start' }}>
+
+        {/* LEFT: Bio */}
+        <motion.div {...fade(0.15)}>
+          {/* Return statement style bio */}
+          <div style={{
+            background: 'var(--bg-editor)',
+            border: `1px solid var(--border)`,
+            borderRadius: '4px',
+            padding: '1.5rem',
+            marginBottom: '2rem',
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.85rem',
+            lineHeight: 1.8,
+          }}>
+            <div style={{ color: 'var(--text-dim)', marginBottom: '0.5rem', fontSize: '0.78rem' }}>
+              {'  '}<span style={{ color: 'var(--syntax-green)', fontStyle: 'italic' }}>/* about */</span>
+            </div>
+            <div>
+              {'  '}<span style={{ color: 'var(--syntax-blue)' }}>return </span>
+              <span style={{ color: 'var(--syntax-orange)' }}>
+                `{personalInfo.about}`
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>;</span>
+            </div>
+          </div>
+
+          {/* Stats as object properties */}
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.82rem',
+            color: 'var(--text-dim)',
+            marginBottom: '0.75rem',
+          }}>
+            <span style={{ color: 'var(--syntax-blue)' }}>const </span>
+            <span style={{ color: 'var(--syntax-yellow)' }}>metrics</span>
+            <span> = {'{'}</span>
+          </div>
+          <div style={{
+            background: 'var(--bg-editor)',
+            border: `1px solid var(--border)`,
+            borderRadius: '4px',
+            padding: '1.25rem 1.5rem',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '1.25rem',
+          }}>
+            {personalInfo.stats.map((stat, i) => (
+              <motion.div key={i} {...fade(0.2 + i * 0.07)}>
+                <div style={{
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '1.6rem', fontWeight: 700,
+                  color: 'var(--syntax-blue)',
+                  letterSpacing: '-0.03em',
+                }}>
+                  {stat.value}
+                </div>
+                <div style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--text-dim)',
+                  marginTop: '0.2rem',
+                  fontFamily: 'Inter, sans-serif',
+                }}>
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>
+            {'}'}<span style={{ color: 'var(--text-secondary)' }}>;</span>
+          </div>
+        </motion.div>
+
+        {/* RIGHT: Skills */}
+        <motion.div {...fade(0.25)}>
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.82rem',
+            color: 'var(--text-dim)',
+            marginBottom: '0.75rem',
+          }}>
+            <span style={{ color: 'var(--syntax-blue)' }}>const </span>
+            <span style={{ color: 'var(--syntax-yellow)' }}>skills</span>
+            <span>: </span>
+            <span style={{ color: 'var(--syntax-cyan)' }}>SkillSet</span>
+            <span> = {'{'}</span>
+          </div>
+
+          <div style={{
+            background: 'var(--bg-editor)',
+            border: `1px solid var(--border)`,
+            borderRadius: '4px',
+            padding: '1.5rem',
+          }}>
+            {skillGroups.map(({ title, tagClass, key }, gi) => (
+              <div key={key} style={{ marginBottom: gi < skillGroups.length - 1 ? '1.5rem' : 0 }}>
+                <div style={{
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.8rem',
+                  marginBottom: '0.6rem',
+                }}>
+                  <span style={{ color: 'var(--syntax-blue)' }}>  {title}</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>: [</span>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', paddingLeft: '1.5rem', marginBottom: '0.4rem' }}>
+                  {skills[key].map((s, i) => (
+                    <span key={i} className={`tag ${tagClass}`}>{s}</span>
+                  ))}
+                </div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', color: 'var(--text-secondary)', paddingLeft: '0.5rem' }}>],</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>
+            {'}'}<span style={{ color: 'var(--text-secondary)' }}>;</span>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Closing brace */}
+      <motion.div {...fade(0.35)} style={{ textAlign: 'center', marginTop: '4rem', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-dim)', fontSize: '1.1rem' }}>
+        <span className="punct">{'}'}</span>
+      </motion.div>
+
+    </div>
+  </section>
+);
 
 export default About;
