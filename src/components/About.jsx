@@ -2,102 +2,99 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo, skills } from '../data/portfolioData';
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.55, delay },
-});
-
-const skillCategories = [
-  { label: 'Data Science & AI',   items: skills.dataScience,       tagClass: 'skill-tag-blue'   },
-  { label: 'Web & Backend',       items: skills.webDevelopment,    tagClass: 'skill-tag-purple' },
-  { label: 'Mobile Development',  items: skills.mobileDevelopment, tagClass: 'skill-tag-blue'   },
-  { label: 'DevOps & Tools',      items: skills.toolsAndDevOps,    tagClass: 'skill-tag-muted'  },
-];
-
-const About = () => (
-  <section id="about">
-    <div className="container">
-
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <motion.span {...fadeUp()} className="section-eyebrow">About Me</motion.span>
-        <motion.h2 {...fadeUp(0.1)} className="section-title">
-          The Person Behind the Code
-        </motion.h2>
-        <div className="divider" />
-      </div>
-
-      {/* Two-column grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '3rem', alignItems: 'start' }}>
-
-        {/* Left: Bio + Stats */}
-        <motion.div {...fadeUp(0.15)}>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '1.05rem', lineHeight: 1.85, marginBottom: '2.5rem' }}>
-            {personalInfo.about}
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            {personalInfo.stats.map((stat, i) => (
-              <motion.div
-                key={i}
-                {...fadeUp(0.2 + i * 0.07)}
-                className="glass"
-                style={{ padding: '1.4rem', borderRadius: 'var(--radius-md)', textAlign: 'center' }}
-              >
-                <div style={{
-                  fontSize: '1.8rem', fontWeight: 800,
-                  fontFamily: 'var(--font-heading)',
-                  color: 'var(--color-primary)',
-                  marginBottom: '0.35rem',
-                  letterSpacing: '-0.03em',
-                }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Right: Skills */}
-        <motion.div
-          {...fadeUp(0.25)}
-          className="glass"
-          style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}
+const About = () => {
+  return (
+    <section id="about" style={{ padding: '8rem 0' }}>
+      <div className="container">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="section-title"
         >
-          <p style={{
-            fontSize: '0.72rem', fontWeight: 700,
-            letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: 'var(--color-text-dim)', marginBottom: '1.75rem',
-          }}>
-            Technical Skills
-          </p>
+          About Me
+        </motion.h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
-            {skillCategories.map(({ label, items, tagClass }) => (
-              <div key={label}>
-                <h4 style={{
-                  fontSize: '0.9rem', fontWeight: 600,
-                  color: 'var(--color-text)', marginBottom: '0.7rem',
-                }}>
-                  {label}
-                </h4>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', marginTop: '4rem' }}>
+          {/* Bio + Stats */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h3 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--color-primary)' }}>My Identity</h3>
+            <p style={{ color: 'var(--color-text-muted)', marginBottom: '1rem', fontSize: '1.1rem', lineHeight: 1.8 }}>
+              {personalInfo.about}
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '3rem' }}>
+              {personalInfo.stats.map((stat, index) => (
+                <div key={index} className="glass" style={{ padding: '1.5rem', borderRadius: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--color-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)', textShadow: '0 0 15px rgba(0,240,255,0.4)' }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Skills */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="glass"
+            style={{ padding: '2.5rem', borderRadius: '16px' }}
+          >
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Skills Matrix</h3>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div>
+                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Data Science &amp; AI</h4>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {items.map((skill, i) => (
-                    <span key={i} className={`skill-tag ${tagClass}`}>{skill}</span>
+                  {skills.dataScience.map((skill, i) => (
+                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(0, 240, 255, 0.1)', color: 'var(--color-primary)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </motion.div>
+
+              <div>
+                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Web &amp; Backend</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {skills.webDevelopment.map((skill, i) => (
+                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(138, 43, 226, 0.15)', color: '#b275ff', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>Mobile Development</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {skills.mobileDevelopment.map((skill, i) => (
+                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(0, 240, 255, 0.1)', color: 'var(--color-primary)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.1rem' }}>DevOps &amp; Tools</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {skills.toolsAndDevOps.map((skill, i) => (
+                    <span key={i} style={{ padding: '0.4rem 0.8rem', background: 'rgba(255, 255, 255, 0.05)', color: 'var(--color-text-muted)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', fontSize: '0.9rem' }}>{skill}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default About;

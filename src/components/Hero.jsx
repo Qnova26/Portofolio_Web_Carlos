@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
-// Try to import photo — fallback handled gracefully
+// Try to import profile photo — falls back to initials gracefully
 let profilePhoto;
 try {
   profilePhoto = new URL('../assets/profile.jpg', import.meta.url).href;
@@ -17,12 +17,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '7rem 0 4rem',
-      }}
+      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '7rem 0 4rem' }}
     >
       <div
         className="container"
@@ -44,14 +39,14 @@ const Hero = () => {
             {/* Glow ring */}
             <div style={{
               position: 'absolute',
-              inset: '-4px',
+              inset: '-3px',
               borderRadius: '50%',
-              background: 'conic-gradient(from 180deg, var(--color-primary), var(--color-purple), var(--color-primary))',
-              opacity: 0.6,
+              background: 'conic-gradient(from 180deg, #00f0ff, #b275ff, #00f0ff)',
+              opacity: 0.7,
               animation: 'spin-slow 8s linear infinite',
               filter: 'blur(2px)',
             }} />
-            {/* Photo frame */}
+            {/* Photo circle */}
             <div style={{
               position: 'relative',
               width: '260px',
@@ -62,63 +57,60 @@ const Hero = () => {
               background: 'var(--color-surface)',
               flexShrink: 0,
             }}>
-              {profilePhoto ? (
-                <img
-                  src={profilePhoto}
-                  alt={`${firstName} - Profile Photo`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-                  onError={(e) => {
-                    // Fallback to initials if image fails
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement.querySelector('.initials-fallback').style.display = 'flex';
-                  }}
-                />
-              ) : null}
-
-              {/* Initials fallback */}
+              <img
+                src={profilePhoto || ''}
+                alt={`${firstName} - Profile Photo`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                onError={e => {
+                  e.currentTarget.style.display = 'none';
+                  document.querySelector('.hero-initials').style.display = 'flex';
+                }}
+              />
+              {/* Fallback initials */}
               <div
-                className="initials-fallback"
+                className="hero-initials"
                 style={{
                   display: profilePhoto ? 'none' : 'flex',
                   width: '100%',
                   height: '100%',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: 'linear-gradient(135deg, var(--color-surface-2), var(--color-bg-2))',
+                  background: 'linear-gradient(135deg, #13131c, #0a0a0f)',
                   fontSize: '4rem',
                   fontFamily: 'var(--font-heading)',
                   fontWeight: 800,
                   color: 'var(--color-primary)',
                   letterSpacing: '-0.04em',
+                  textShadow: '0 0 20px rgba(0, 240, 255, 0.5)',
                 }}
               >
                 CQ
               </div>
             </div>
 
-            {/* Status badge */}
+            {/* "Open to Work" badge */}
             <div style={{
               position: 'absolute',
               bottom: '12px',
               right: '8px',
-              background: 'var(--color-surface)',
-              border: '2px solid var(--color-bg)',
-              borderRadius: 'var(--radius-full)',
+              background: 'rgba(19, 19, 28, 0.95)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              borderRadius: '50px',
               padding: '0.3rem 0.75rem',
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem',
               fontSize: '0.75rem',
               fontWeight: 600,
-              color: 'var(--color-green)',
-              boxShadow: 'var(--shadow-md)',
+              color: '#00f0ff',
+              boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)',
             }}>
               <span style={{
-                width: '7px',
-                height: '7px',
+                width: '7px', height: '7px',
                 borderRadius: '50%',
-                background: 'var(--color-green)',
+                background: '#00f0ff',
                 animation: 'pulse-dot 2s ease-in-out infinite',
+                boxShadow: '0 0 6px #00f0ff',
               }} />
               Open to Work
             </div>
@@ -133,146 +125,80 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.35rem 1rem',
-              background: 'var(--color-primary-dim)',
-              border: '1px solid rgba(99, 179, 237, 0.2)',
-              borderRadius: 'var(--radius-full)',
-              fontSize: '0.82rem',
-              fontWeight: 600,
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              background: 'rgba(0, 240, 255, 0.1)',
               color: 'var(--color-primary)',
+              borderRadius: '50px',
               marginBottom: '1.5rem',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              border: '1px solid rgba(0, 240, 255, 0.2)',
             }}
           >
-            <span>👋</span> Hello, I'm {firstName}
+            👋 Hello, I'm {firstName}
           </motion.div>
 
-          {/* Main heading */}
+          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            style={{
-              fontSize: 'clamp(2.4rem, 5vw, 4rem)',
-              lineHeight: 1.1,
-              marginBottom: '1.25rem',
-              letterSpacing: '-0.03em',
-            }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', lineHeight: 1.15, marginBottom: '1.25rem' }}
           >
-            <span style={{
-              background: 'linear-gradient(135deg, #f0f4f8 0%, #63b3ed 50%, #b794f4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Data Scientist
+            Bridging{' '}
+            <span style={{ color: 'transparent', WebkitTextStroke: '1px var(--color-primary)', filter: 'drop-shadow(0 0 8px var(--color-primary))' }}>
+              Data Science
             </span>
             <br />
-            <span style={{ color: 'var(--color-text)', fontWeight: 700 }}>
-              & Full-Stack
-            </span>
-            <br />
-            <span style={{ color: 'var(--color-text-muted)', fontWeight: 400, fontSize: '0.65em' }}>
-              Developer
-            </span>
+            &amp; Full-Stack Engineering
           </motion.h1>
 
           {/* Bio */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            style={{
-              color: 'var(--color-text-muted)',
-              fontSize: '1.05rem',
-              maxWidth: '520px',
-              lineHeight: 1.8,
-              marginBottom: '2.5rem',
-            }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', maxWidth: '560px', marginBottom: '2.5rem', lineHeight: 1.8 }}
           >
-            Building <strong style={{ color: 'var(--color-primary)', fontWeight: 600 }}>intelligent systems</strong> and responsive applications from Bali, Indonesia — turning complex data into actionable business insights.
+            Building intelligent systems, multi-modal AI platforms, and responsive applications that convert complex data into actionable business insights.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.45 }}
-            style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
           >
-            <a href="#projects" className="btn btn-primary" style={{ padding: '0.8rem 1.8rem' }}>
-              View My Work <FiArrowRight size={17} />
+            <a href="#projects" className="btn btn-primary">
+              View Projects <FiArrowRight size={18} />
             </a>
-            <a href="#contact" className="btn btn-outline" style={{ padding: '0.8rem 1.8rem' }}>
-              Get in Touch
+            <a href="/CV.pdf" download="CV_Carlos_Qnova.pdf" className="btn btn-outline">
+              Download CV
             </a>
-          </motion.div>
-
-          {/* Social links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.65, duration: 0.5 }}
-            style={{ display: 'flex', gap: '0.6rem' }}
-          >
-            {[
-              { href: personalInfo.github,            icon: <FiGithub size={17} />,   label: 'GitHub' },
-              { href: personalInfo.linkedin,           icon: <FiLinkedin size={17} />, label: 'LinkedIn' },
-              { href: `mailto:${personalInfo.email}`, icon: <FiMail size={17} />,     label: 'Email' },
-            ].map(({ href, icon, label }) => (
-              <a
-                key={label}
-                href={href}
-                target={label !== 'Email' ? '_blank' : undefined}
-                rel="noreferrer"
-                title={label}
-                className="btn btn-outline"
-                style={{ padding: '0.6rem', borderRadius: '50%', width: '40px', height: '40px' }}
-              >
-                {icon}
-              </a>
-            ))}
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginLeft: '0.25rem' }}>
+              {[
+                { href: personalInfo.github,            icon: <FiGithub size={20} />,   label: 'GitHub' },
+                { href: personalInfo.linkedin,           icon: <FiLinkedin size={20} />, label: 'LinkedIn' },
+                { href: `mailto:${personalInfo.email}`, icon: <FiMail size={20} />,     label: 'Email' },
+              ].map(({ href, icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={label !== 'Email' ? '_blank' : undefined}
+                  rel="noreferrer"
+                  title={label}
+                  className="btn btn-outline"
+                  style={{ padding: '0.75rem', borderRadius: '50%' }}
+                >
+                  {icon}
+                </a>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        style={{
-          position: 'absolute',
-          bottom: '2.5rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}
-      >
-        <span style={{ fontSize: '0.7rem', color: 'var(--color-text-dim)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-          scroll
-        </span>
-        <div style={{
-          width: '22px', height: '34px',
-          border: '1.5px solid rgba(255,255,255,0.12)',
-          borderRadius: '12px',
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '4px 0',
-        }}>
-          <div style={{
-            width: '3px', height: '8px',
-            background: 'var(--color-primary)',
-            borderRadius: '2px',
-            animation: 'scroll-dot 2s ease-in-out infinite',
-          }} />
-        </div>
-      </motion.div>
 
       <style>{`
         @keyframes spin-slow {
@@ -281,24 +207,18 @@ const Hero = () => {
         }
         @keyframes pulse-dot {
           0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.6; transform: scale(0.8); }
+          50%       { opacity: 0.5; transform: scale(0.8); }
         }
-        @keyframes scroll-dot {
-          0%   { transform: translateY(0); opacity: 1; }
-          100% { transform: translateY(14px); opacity: 0; }
-        }
-
         @media (max-width: 768px) {
           #hero .container {
             grid-template-columns: 1fr !important;
             text-align: center;
             gap: 3rem !important;
           }
-          #hero .container > div:first-child {
-            display: flex;
-            justify-content: center;
+          #hero .container > div:last-child p {
+            max-width: 100% !important;
           }
-          #hero .container > div:last-child > div[style*="flex"] {
+          #hero .container > div:last-child > div:last-child {
             justify-content: center;
           }
         }
