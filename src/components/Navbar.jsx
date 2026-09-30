@@ -75,12 +75,17 @@ const Navbar = () => {
       </div>
 
       {/* Tab bar */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'stretch',
-        overflowX: 'auto',
-        background: 'var(--bg-surface)',
-      }}>
+      <div
+        className="no-scrollbar"
+        style={{
+          display: 'flex',
+          alignItems: 'stretch',
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          background: 'var(--bg-surface)',
+        }}
+      >
         {tabs.map(tab => {
           const isActive = activeTab === tab.id;
           return (

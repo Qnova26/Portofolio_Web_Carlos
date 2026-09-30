@@ -2,36 +2,80 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { experiences, education } from '../data/portfolioData';
 
-const TimelineItem = ({ item, index, dotColor }) => {
+const TimelineItem = ({ item, index, isEdu }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -50 }}
+      initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      style={{ position: 'relative', paddingLeft: '3rem', paddingBottom: '3rem' }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      style={{ position: 'relative', paddingLeft: '2.5rem', paddingBottom: '2.5rem' }}
     >
-      {/* Timeline line */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'rgba(255, 255, 255, 0.08)' }} />
-      {/* Dot */}
+      {/* Vertical timeline wire */}
       <div style={{
-        position: 'absolute', left: '-6px', top: '6px',
-        width: '14px', height: '14px', borderRadius: '50%',
-        background: dotColor || 'var(--color-primary)',
-        boxShadow: `0 0 10px ${dotColor || 'var(--color-primary)'}`,
+        position: 'absolute',
+        left: '7px',
+        top: '24px',
+        bottom: 0,
+        width: '1px',
+        background: 'var(--border)',
       }} />
 
-      <div className="glass" style={{ padding: '2rem', borderRadius: '16px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
+      {/* Timeline Node Icon */}
+      <div style={{
+        position: 'absolute',
+        left: 0,
+        top: '6px',
+        width: '15px',
+        height: '15px',
+        borderRadius: '50%',
+        background: isEdu ? 'var(--syntax-purple)' : 'var(--accent)',
+        border: '3px solid var(--bg-sidebar)',
+        boxShadow: `0 0 8px ${isEdu ? 'rgba(197, 134, 192, 0.4)' : 'rgba(0, 122, 204, 0.4)'}`,
+      }} />
+
+      {/* VSCode Panel Card */}
+      <div className="vsc-panel" style={{ padding: '1.5rem', borderRadius: '6px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.75rem' }}>
           <div>
-            <h3 style={{ fontSize: '1.3rem', color: '#fff', marginBottom: '0.25rem' }}>{item.role || item.degree}</h3>
-            <h4 style={{ fontSize: '1rem', color: dotColor || 'var(--color-primary)' }}>{item.company || item.institution}</h4>
+            <h4 style={{
+              fontSize: '1.15rem',
+              color: 'var(--text-white)',
+              marginBottom: '0.2rem',
+              fontFamily: 'Inter, sans-serif',
+            }}>
+              {item.role || item.degree}
+            </h4>
+            <div style={{
+              fontSize: '0.88rem',
+              fontFamily: 'JetBrains Mono, monospace',
+              color: isEdu ? 'var(--syntax-purple)' : 'var(--syntax-cyan)',
+            }}>
+              @ {item.company || item.institution}
+            </div>
           </div>
-          <span style={{ padding: '0.25rem 0.75rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '20px', fontSize: '0.85rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
+
+          <span style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.75rem',
+            padding: '0.25rem 0.65rem',
+            background: 'var(--bg-editor)',
+            border: '1px solid var(--border)',
+            borderRadius: '3px',
+            color: 'var(--text-dim)',
+            whiteSpace: 'nowrap',
+          }}>
             {item.period}
           </span>
         </div>
-        <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.7 }}>{item.description}</p>
+
+        <p style={{
+          color: 'var(--text-secondary)',
+          fontSize: '0.9rem',
+          lineHeight: 1.65,
+        }}>
+          {item.description}
+        </p>
       </div>
     </motion.div>
   );
@@ -39,43 +83,82 @@ const TimelineItem = ({ item, index, dotColor }) => {
 
 const Experience = () => {
   return (
-    <section id="experience" style={{ padding: '8rem 0' }}>
+    <section id="experience" style={{ background: 'var(--bg-sidebar)', padding: '6rem 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-title"
-        >
-          Experience &amp; Education
-        </motion.h2>
+        {/* Section header */}
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="vsc-comment"
+          >
+            {'// section: career & education timeline'}
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="section-title"
+          >
+            <span className="kw">async function </span>
+            <span className="fn">getExperience</span>
+            <span className="punct">() {'{'}</span>
+          </motion.h2>
+          <div className="vsc-divider" />
+        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '4rem', marginTop: '4rem' }}>
-          {/* Work History */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(330px, 1fr))', gap: '3rem' }}>
+          {/* Work Experience */}
           <div>
-            <h3 style={{ fontSize: '1.8rem', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ width: '40px', height: '2px', background: 'var(--color-primary)', display: 'inline-block', boxShadow: '0 0 8px var(--color-primary)' }} />
-              Work History
-            </h3>
-            <div style={{ position: 'relative' }}>
+            <div style={{
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '1rem',
+              color: 'var(--syntax-yellow)',
+              marginBottom: '2rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}>
+              <span className="kw">const </span>
+              <span className="var">workHistory</span>
+              <span className="punct">: </span>
+              <span className="type">Job[]</span>
+            </div>
+            <div>
               {experiences.map((exp, index) => (
-                <TimelineItem key={index} item={exp} index={index} dotColor="var(--color-primary)" />
+                <TimelineItem key={index} item={exp} index={index} isEdu={false} />
               ))}
             </div>
           </div>
 
           {/* Education */}
           <div>
-            <h3 style={{ fontSize: '1.8rem', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ width: '40px', height: '2px', background: '#b275ff', display: 'inline-block', boxShadow: '0 0 8px #b275ff' }} />
-              Education
-            </h3>
-            <div style={{ position: 'relative' }}>
+            <div style={{
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '1rem',
+              color: 'var(--syntax-yellow)',
+              marginBottom: '2rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}>
+              <span className="kw">const </span>
+              <span className="var">educationHistory</span>
+              <span className="punct">: </span>
+              <span className="type">Academic[]</span>
+            </div>
+            <div>
               {education.map((edu, index) => (
-                <TimelineItem key={index} item={edu} index={index} dotColor="#b275ff" />
+                <TimelineItem key={index} item={edu} index={index} isEdu={true} />
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Closing brace */}
+        <div style={{ textAlign: 'center', marginTop: '3rem', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-dim)', fontSize: '1.1rem' }}>
+          <span className="punct">{'}'}</span>
         </div>
       </div>
     </section>
